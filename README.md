@@ -23,4 +23,3 @@
 ### :mega:项目所需要的带代码及jar包 ###
 > ：百度云网盘 链接：(https://pan.baidu.com/s/1bv4AJB75LqhTLHRmgbdAeA) 
 提取码：24al 
-复制这段内容后打开百度网盘手机App，操作更方便哦
