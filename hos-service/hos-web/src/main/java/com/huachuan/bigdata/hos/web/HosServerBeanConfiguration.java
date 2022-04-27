@@ -24,15 +24,17 @@ public class HosServerBeanConfiguration {
      */
     @Bean
     public Connection getConnection() throws IOException {
-        org.apache.hadoop.conf.Configuration config = HBaseConfiguration.create();
-        HosConfiguration confUtil = HosConfiguration.getConfiguration();
+        org.apache.hadoop.conf.Configuration configuration = HBaseConfiguration.create();
+//        HosConfiguration confUtil = HosConfiguration.getConfiguration();
 
-        config.set("hbase.zookeeper.quorum", confUtil.getString("hbase.zookeeper.quorum"));
-        config.set("hbase.zookeeper.property.clientPort",
-                confUtil.getString("hbase.zookeeper.port"));
-        config.set(HConstants.HBASE_RPC_TIMEOUT_KEY, "3600000");
+//        config.set("hbase.zookeeper.quorum", confUtil.getString("hbase.zookeeper.quorum"));
+//        config.set("hbase.zookeeper.property.clientPort",
+//                confUtil.getString("hbase.zookeeper.port"));
+//        config.set(HConstants.HBASE_RPC_TIMEOUT_KEY, "3600000");
+        configuration.set("hbase.zookeeper.property.clientPort", "2181");
+        configuration.set("hbase.zookeeper.quorum", "hadoop102,hadoop103,hadoop104");
 
-        return ConnectionFactory.createConnection(config);
+        return ConnectionFactory.createConnection(configuration);
     }
 
     @Bean(name = "hosStoreService")

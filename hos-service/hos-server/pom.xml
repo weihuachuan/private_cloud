@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hos-server</artifactId>
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -20,52 +24,29 @@
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-mybatis</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-mybatis</artifactId>
             <type>test-jar</type>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.apache.hadoop</groupId>-->
-        <!--<artifactId>hadoop-hdfs</artifactId>-->
-        <!--<version>3.1.3</version>-->
-        <!--<exclusions>-->
-            <!--<exclusion>-->
-                <!--<artifactId>servlet-api</artifactId>-->
-                <!--<groupId>javax.servlet</groupId>-->
-            <!--</exclusion>-->
-        <!--</exclusions>-->
-    <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.hadoop</groupId>-->
-            <!--<artifactId>hadoop-common</artifactId>-->
-            <!--<version>3.1.3</version>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>servlet-api</artifactId>-->
-                    <!--<groupId>javax.servlet</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-client</artifactId>
-            <version>1.3.1</version>
+            <version>1.2.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.netty</groupId>
@@ -95,8 +76,19 @@
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>3.1.3</version>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>2.7.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.7.3</version>
             <exclusions>
                 <exclusion>
                     <artifactId>servlet-api</artifactId>

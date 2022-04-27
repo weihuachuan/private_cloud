@@ -24,9 +24,7 @@ public class HdfsServiceImpl implements IHdfsService{
         // 1 获取文件系统
         Configuration configuration = new Configuration();
         // 配置在集群上运行
-        // configuration.set("fs.defaultFS", "hdfs://hadoop102:8020");
-        // FileSystem fs = FileSystem.get(configuration);
-        fileSystem = FileSystem.get(new URI("hdfs://hadoop102:8020"), configuration, "root");
+        fileSystem = FileSystem.get(new URI("hdfs://hadoop102:8020"), configuration);
     }
 
     @Override

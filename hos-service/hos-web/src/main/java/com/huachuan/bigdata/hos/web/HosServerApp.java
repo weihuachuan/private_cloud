@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableAutoConfiguration(exclude = MongoAutoConfiguration.class)
 @Configuration
 @ComponentScan({"com.huachuan.bigdata.*"})
-//@SpringBootApplication
+@SpringBootApplication
 @Import({HosDataSourceConfig.class, HosServerBeanConfiguration.class})
 @MapperScan("com.huachuan.bigdata")
 public class HosServerApp {

@@ -14,17 +14,17 @@
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-server</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.huachuan.bigdata</groupId>
             <artifactId>hos-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
