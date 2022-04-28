@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+ <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<title></title>
+<style type="text/css">
+  html { overflow-x: hidden; overflow-y: auto; }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Pan-Henau</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+         <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+           <li><a href="#"></a></li>
+        <li class="active back"><a href="javascript:history.back(-1)">返回 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
+      </ul>
+      <!--  搜索功能暂不支持
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="根据文件前缀搜">
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form> -->
+      <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav">
+        <li class="active"><a href="javascript:void(0)">上传文件 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
+      </ul>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{username}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          
+            <li><a href="/logout">退出用户</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!-- 面包屑导航 下-->
+<ol class="breadcrumb">
+<li><a href="#"> </a></li>
+</ol>
+<!-- 面包屑导航 上-->
+
+
+
+<div class="row" style="margin-top: 50px;">
+      <div class="col-md-2 .col-lg-2">
+      </div>
+      <div class="col-md-8 .col-lg-8">
+        
+
+        <form action="/uploadPage1" method="post" enctype="multipart/form-data"  >
+       
+         
+            <input type="hidden" class="form-control" id="key" name="key" value={{key}}>
+           <input type="hidden" class="form-control" id="mediaType"  name="mediaType" >
+          <div class="form-group">
+            <label for="exampleInputFile" style="margin-bottom: 30px;">文件上传列表</label>
+            <input type="file" id="exampleInputFile" name="content">
+
+            <p class="help-block">目前版本为单文件上传，未来支持多文件上传，目前已测试上传大小限制1GB</p>
+          </div>
+
+          <button type="submit" class="btn btn-default" style="margin-top: 30px;">文件上传</button>
+        </form>
+
+
+
+      </div>
+      <div class="col-md-2 .col-lg-2">
+      </div>
+</div>
+
+<script type="text/javascript">
+    //key  = str + "/"" + filename
+    var name ="";
+    
+
+    var file = $('#exampleInputFile');
+    
+    file.on('change', function( e ){
+        name = e.currentTarget.files[0].name;
+        mediaType = name.split(".").[1];
+        console.log(name)
+      
+        $("#mediaType").val(mediaType);
+    });
+   
+
+
+</script>
+
+
+</body>
+</html>

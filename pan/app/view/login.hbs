@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<!-- Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style type="text/css">
+  
+#web_bg{
+  position:fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height:100%;
+  min-width: 1000px;
+  z-index:-10;
+  zoom: 1;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-position: center 0;
+}
+
+</style>
+<title></title>
+</head>
+<body id="web_bg" style="background-image: url(img/xiaomai.jpg);">
+
+<div class="panel " style=" background-color:rgba(255,255,255,0);" >
+  <div class="panel-body">
+    <div class="row">
+  <div class="col-md-12" ></div>
+   <div class="col-md-12"></div>
+     <p style="text-align: center; font-size: 25px;"> 麦博士网盘 </p>
+  <div class="col-md-4"></div>
+  <div class="col-md-4"  style="border-radius: 4px;border: 1px solid rgba(0,0,0,.1); margin-top:50px; margin-bottom:50px; padding-top:35px;padding-bottom: 50px;   ">
+  	<p style="text-align: center; font-size: 18px;"> 登陆 </p>
+
+<form  action="./loginPost" method="post"   >
+  <div class="form-group">
+    <label for="exampleInputEmail1">用户名</label>
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="username" placeholder="请输入您的用户名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">密码</label>
+    <input type="password" class="form-control" id="exampleInputPassword1"  name="password" placeholder="请输入您的密码">
+    {{status}}
+  </div>
+  <button type="submit" class="btn btn-default">登陆</button>
+  <a href="/register" style="margin-left: 30px;">还没有账户？快来注册一个 </a>
+</form>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+</body>
+</html>

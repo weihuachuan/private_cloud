@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="css/contextMenu.css" />
+
+
+
+ <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="js/jquery.contextMenu.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style type="text/css">
+  html { overflow-x: hidden; overflow-y: auto; }
+</style>
+
+<title></title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">麦博士网盘</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+         <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+           <li><a href="#"></a></li>
+        <li class="active back"><a href="#">返回上一级<span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
+      </ul>
+     <!--   搜索功能暂未支持
+     <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="根据文件前缀搜">
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form> -->
+      <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav">
+        <li class="active" data-toggle="modal" data-target="#newFolderModel"  ><a    href="#">新建文件夹 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
+
+        <li class="active upload"   data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ><a  id="uploadFlag"  href="/uploadPage">上传文件 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
+      </ul>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{username}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+           
+          
+            <li><a href="/logout">退出用户</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<ol class="breadcrumb">
+{{#if nav}}
+{{#each nav}}
+<li class="flag1"><a href="#">{{this}}</a></li>
+{{/each}}
+{{/if}}
+</ol>
+
+
+<!-- <ul class="list-group">
+  <li class="list-group-item">Cras justo odio</li>
+  <li class="list-group-item">Dapibus ac facilisis in</li>
+  <li class="list-group-item">Morbi leo risus</li>
+  <li class="list-group-item">Porta ac consectetur ac</li>
+  <li class="list-group-item">Vestibulum at eros</li>
+</ul>
+ -->
+<div class="row one_load" >
+{{#each res}}
+{{#if mediaType}}
+  <div class="col-md-2 download" >
+    <a href="#" class="thumbnail"  data-toggle="modal" data-target="#myModal"   style="border:0;">
+      <img src="img/file.png" alt="{{name}}">
+      <p style="text-align: center;margin-top: 10px;" >{{name}}</p>
+    </a>
+  </div>
+{{else}}
+<div class="col-md-2 download folder">
+    <a href="#" class="thumbnail"   style="border:0;">
+      <img src="img/folder.png" alt="目录">
+      <p style="text-align: center;">{{name}}</p>
+    </a>
+  </div>
+{{/if}}
+{{/each}} 
+</div>
+
+
+<!-- 下载的模态框 -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">文件详情</h4>
+      </div>
+      <div class="modal-body">
+
+        <ul class="list-group">
+          <li class="list-group-item">文件名 :<span id="fileName" ></span></li>
+          <li class="list-group-item">文件的上传日期 :<span id="lastModify" ></span></li>
+          <li class="list-group-item">文件的大小 :<span id="fileSize" ></span> </li>
+
+        </ul>
+        
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="deleteFile"  class="btn btn-default" data-dismiss="modal">删除文件</button>
+        <button type="button" id="downloadFile" class="btn btn-primary">下载文件</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--下载模态框结束 -->
+
+
+
+<!--新建文件夹模态框开始 -->
+
+<!-- Modal -->
+<div class="modal fade" id="newFolderModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新建文件夹</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="folderName">文件夹名称 :</label>
+          <input type="text" class="form-control" id="folderName" placeholder="请为新的文件夹命名">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="newFolder" class="btn btn-primary">确定</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<!--新建文件夹模态框结束 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  //全局禁止鼠标右键
+   $('html').bind('contextmenu', function() {
+            return false;
+  });
+  //初次加载的时候处理节点
+  for(var i=0;i<$(".download").length;i++)
+  {
+    var fileClass = $(".download").eq(i).find("p").text();
+    $(".download").eq(i).addClass(fileClass.split(".")[0]);
+  }
+  var fileObjectList = '{{{resStr}}}';
+  fileObjectList = JSON.parse(fileObjectList).res;
+
+
+ //ajax渲染文件视图
+  $(".one_load").click(function(e){
+    // 保存一个全局的文件信息列表
+    
+
+    //如果点击的是文件夹,则加载新的视图
+
+    if($(e.target).parents(".download").find("img").attr("src").split("/")[$(e.target).parents(".download").find("img").attr("src").split("/").length-1]=="folder.png")
+    {
+          var str = "";
+    $(".breadcrumb").find(".flag1 a").each(function(){
+      str += "/"+$(this).text().replace(/[ ]/g,"");
+    })
+      var $tar = $(e.target).parents(".download");
+      var temp = '/'+$tar.find("p").text();
+      console.log(temp);
+      for(var i=0;i<temp.length;i++)
+      {
+         if(temp.charAt(i)=='.')
+         {
+           temp ="";
+         }
+      }
+
+      var url1 = str+temp;
+      console.log(url1)
+       $.ajax({
+         url:'./queryDir?dir='+url1+"/",
+         type:'get'
+       }).done(function(results){
+
+
+
+        //如果查询的文件夹是个空的文件夹，渲染面包屑导航
+        if(results.length==false)
+        {
+              $(".one_load").children().remove();
+              $(".breadcrumb").children().remove();
+
+
+                var out="";
+                var len = 0;
+                console.log("面包屑导航的key"+results.res);
+                var arr =results.res.split('/');
+                var folderDir = "";
+                //判断是目录还是文件
+                 if(results.res.charAt(results.res.length-1)=='/')
+                {//如果是文件，找到所属目录
+                  len = arr.length-2;
+                }else{//如果是目录
+                  len = arr.length-1;
+                }
+
+                
+                for(var i=1;i<len;i++)
+                { console.log("context:  "+arr[i])
+                  out = out+"<li class=\"flag1\"><a href=\"#\">"+arr[i]+"</a></li>";
+                  folderDir +="/"+arr[i];
+                } 
+               
+                $(".breadcrumb").append(out);
+                  //动态修改上传的href
+                $("#uploadFlag").attr("href","/uploadPage?key="+folderDir);
+        }else{  //如果查询的文件夹不是 一个空文件夹，则渲染这个文件夹。
+
+              fileObjectList = results.res;
+              // console.log(results);
+              //清掉上次旧的数据
+              $(".one_load").children().remove();
+              $(".breadcrumb").children().remove();
+              //渲染新的数据
+              for(var i=0;i<results.res.length;i++)
+              { 
+                var html="";
+                if(results.res[i].mediaType)
+                {   
+                   html = "<div class=\"col-md-2 download "+results.res[i].name.split(".")[0]+ "\" ><a href=\"#\" class=\"thumbnail\" data-toggle=\"modal\" data-target=\"#myModal\" style=\"border:0;\"><img src=\"img/file.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+results.res[i].name+"</p></a></div>"
+                }else{
+                   html = "<div class=\"col-md-2 download folder "+results.res[i].name.split(".")[0]+ "\" ><a href=\"#\" class=\"thumbnail\" style=\"border:0;\"><img src=\"img/folder.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+results.res[i].name+"</p></a></div>"
+                }
+                $(".one_load").append(html);
+              }
+       
+                var out="";
+                var len = 0;
+                console.log("修复"+results.res[0].key);
+                var arr =results.res[0].key.split('/');
+                var folderDir = "";
+                //判断是目录还是文件
+                 if(results.res[0].key.charAt(results.res[0].key.length-1)=='/')
+                {//如果是文件，找到所属目录
+                  len = arr.length-2;
+                }else{//如果是目录
+                  len = arr.length-1;
+                }
+
+                
+                for(var i=1;i<len;i++)
+                { console.log("context:  "+arr[i])
+                  out = out+"<li class=\"flag1\"><a href=\"#\">"+arr[i]+"</a></li>";
+                  folderDir +="/"+arr[i];
+                } 
+               
+                $(".breadcrumb").append(out);
+                  //动态修改上传的href
+                $("#uploadFlag").attr("href","/uploadPage?key="+folderDir);
+              }
+                //再次绑定删除文件夹
+                reBindDeleteFolder();
+         })
+    }else{
+      //如果点击的是文件，则加载它文件信息
+     
+      var $tar = $(e.target).parents(".download");
+      var temp = $tar.find("p").text();
+      for(var i=0;i<fileObjectList.length;i++)
+      { 
+        console.log(fileObjectList[i].name+"-------"+temp)
+         if (fileObjectList[i].name==temp)
+         {   
+
+              console.log("OK")
+
+             $("#fileName").text(fileObjectList[i].name);
+             fileObjectList[i].length = parseInt(fileObjectList[i].length/1024);
+             flieSizeFlag = 0;  //KB
+             if ( (fileObjectList[i].length/1024) > 1024)
+             {
+                fileObjectList[i].length= parseInt(fileObjectList[i].length/1024);  //MB
+                flieSizeFlag=1;
+                if ( (fileObjectList[i].length/1024) > 1024)
+                {
+                  fileObjectList[i].length= parseInt(fileObjectList[i].length/1024);  //GB
+                  flieSizeFlag=2;
+                }
+             }
+             if (flieSizeFlag==0)
+             {
+                $("#fileSize").text( fileObjectList[i].length+"KB");
+             }else if (flieSizeFlag==1)
+             {
+               $("#fileSize").text( fileObjectList[i].length+"MB");
+             }else if (flieSizeFlag==2)
+             {
+              $("#fileSize").text( fileObjectList[i].length+"GB");
+             }
+             
+             $("#lastModify").text(timestampToTime(fileObjectList[i].lastModifyTime));
+         }
+      }
+          
+    
+      }
+  })
+  
+
+//时间戳转换器
+function timestampToTime(timestamp) {
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+    }
+ //文件视图  返回
+ $(".back").click(function(){
+  
+    var str = "";
+    $(".flag1 a").last().remove();
+    $(".breadcrumb").find(".flag1 a").each(function(){
+      str += "/"+$(this).text().replace(/[ ]/g,"");
+    })
+    if(str!="")
+    {
+      
+      $.ajax({
+         url:'./queryDir?dir='+str+"/",
+         type:'get'
+       }).done(function(results){
+
+        $(".one_load").children().remove();
+        $(".breadcrumb").children().remove();
+          
+        //更新fileObjectList
+        fileObjectList = results.res;
+
+        for(var i=0;i<results.res.length;i++)
+        { 
+          var html="";
+          if(results.res[i].mediaType)
+          {
+             html = "<div class=\"col-md-2 download "+results.res[i].name.split(".")[0]+ "\" ><a href=\"/download?bucket=syx1&key=/dir1/dir2/addUser.html\" data-toggle=\"modal\" data-target=\"#myModal\"  class=\"thumbnail\" style=\"border:0;\"><img src=\"img/file.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+results.res[i].name+"</p></a></div>"
+          }else{
+             html = "<div class=\"col-md-2 download folder "+results.res[i].name.split(".")[0]+ "\" ><a href=\"#\" class=\"thumbnail\" style=\"border:0;\"><img src=\"img/folder.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+results.res[i].name+"</p></a></div>"
+          }
+          $(".one_load").append(html);
+        }
+ 
+          var out="";
+          var len = 0;
+          var arr =results.res[0].key.split('/');
+           var folderDir = "";
+           if(results.res[0].key.charAt(results.res[0].key.length-1)=='/')
+          {
+            len = arr.length-2;
+          }else{
+            len = arr.length-1;
+          }
+
+          
+          for(var i=1;i<len;i++)
+          { console.log("context:  "+arr[i])
+            out = out+"<li class=\"flag1\"><a href=\"#\">"+arr[i]+"</a></li>";
+            folderDir +="/"+arr[i];
+          } 
+         
+          $(".breadcrumb").append(out);
+            //动态修改上传的href
+          $("#uploadFlag").attr("href","/uploadPage?key="+folderDir);
+          //再次绑定删除文件夹
+          reBindDeleteFolder();
+       })
+    }else{
+       $.ajax({
+         url:'./queryDir?dir=/',
+         type:'get'
+       }).done(function(results){
+        $(".one_load").children().remove();
+        $(".breadcrumb").children().remove();
+
+        //更新fileObjectList
+        fileObjectList = results.res;
+
+        for(var i=0;i<results.res.length;i++)
+        { 
+          var html="";
+          if(results.res[i].mediaType)
+          {
+             html = "<div class=\"col-md-2 download "+results.res[i].name.split(".")[0]+ "\" ><a href=\"#\" class=\"thumbnail\" data-toggle=\"modal\" data-target=\"#myModal\"  style=\"border:0;\"><img src=\"img/file.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+results.res[i].name+"</p></a></div>"
+          }else{
+             html = "<div class=\"col-md-2 download folder "+results.res[i].name.split(".")[0]+ "\" ><a href=\"#\" class=\"thumbnail\" style=\"border:0;\"><img src=\"img/folder.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+results.res[i].name+"</p></a></div>"
+          }
+          $(".one_load").append(html);
+        }
+ 
+          var out="";
+          var len = 0;
+          var arr =results.res[0].key.split('/');
+           var folderDir = "";
+           if(results.res[0].key.charAt(results.res[0].key.length-1)=='/')
+          {
+            len = arr.length-2;
+          }else{
+            len = arr.length-1;
+          }
+
+          
+          for(var i=1;i<len;i++)
+          { console.log("context:  "+arr[i])
+            out = out+"<li class=\"flag1\"><a href=\"#\">"+arr[i]+"</a></li>";
+            folderDir +="/"+arr[i];
+          } 
+         
+          $(".breadcrumb").append(out);
+            //动态修改上传的href
+          $("#uploadFlag").attr("href","/uploadPage?key="+folderDir);
+          //再次绑定删除文件夹
+          reBindDeleteFolder();
+       })
+    }
+
+
+   
+     
+     
+ })
+
+
+//文件下载
+$("#downloadFile").click(function(e){
+    var str="";
+    $(".breadcrumb").find(".flag1 a").each(function(){
+      str += "/"+$(this).text().replace(/[ ]/g,"");
+    })
+    
+    
+        var filename = $(this).parents("div.modal-dialog").find("li").eq(0).text().split(":")[1];
+        console.log(filename)
+       
+        var url = './download?key='+str+"/"+filename;
+        
+        var form = $("<form></form>").attr("action", url).attr("method", "get");
+        form.append($("<input></input>").attr("type", "hidden").attr("name", "key").attr("value", str+"/"+filename));
+        form.appendTo('body').submit().remove();
+
+})
+//删除文件  id= deleteFile
+
+  $("#deleteFile").click(function(){
+        var filename = $(this).parents("div.modal-dialog").find("li").eq(0).text().split(":")[1];
+        console.log(filename)
+    var str = "";
+
+    $(".breadcrumb").find(".flag1 a").each(function(){
+      str += "/"+$(this).text().replace(/[ ]/g,"");
+    })             
+    console.log(str+"/"+filename)
+       $.ajax({
+         url:'./deleteFile?key='+str+"/"+filename,
+         type:'get'
+       }).done(function(results){
+            if (results.succ==true)
+            { 
+               console.log(results.succ)
+               $("."+filename.split(".")[0]).remove();
+            }
+       })
+
+
+  });
+
+
+//新建文件夹
+$("#newFolder").click(function(){
+
+    var folderName = $(this).parents("div.modal-dialog").find("input").val();
+        console.log(folderName)
+    var str = "";
+
+    $(".breadcrumb").find(".flag1 a").each(function(){
+      str += "/"+$(this).text().replace(/[ ]/g,"");
+    })             
+    console.log("新建文件夹的路径"+str+"/"+folderName)
+       $.ajax({
+         url:'./newFolder?key='+str+"/"+folderName,
+         type:'get'
+       }).done(function(results){
+            if (results.succ==true)
+            {
+               //1.隐藏弹出层  
+               $("#newFolderModel").css("display","none");
+               $("#newFolderModel").removeClass("in");
+               $(".modal-backdrop").remove();  
+
+
+               //2.新增一个文件夹
+
+               var html = "<div class=\"col-md-2 download\" ><a href=\"#\" class=\"thumbnail\" style=\"border:0;\"><img src=\"img/folder.png\" alt=\"...\"><p style=\"text-align: center;margin-top: 10px;\" >"+folderName+"</p></a></div>"
+          
+               $(".one_load").append(html);
+            }
+       })
+
+
+
+})
+
+//对文件夹修改鼠标右键   BUG 现在是静态绑定，需要动态绑定
+reBindDeleteFolder();
+function reBindDeleteFolder()
+{
+var $folder=null;
+$(".folder").mousedown(function(){
+  $folder = $(this);
+})
+$(".folder").contextMenu({
+   
+    menu: [
+        {
+            text: "删除",
+            icon: "img/4.png",
+            callback: function() {
+               
+              //获取文件夹名字
+               var folderName = $folder.find("p").text();
+                    console.log($(this))
+                var str = "";
+
+                $(".breadcrumb").find(".flag1 a").each(function(){
+                  str += "/"+$(this).text().replace(/[ ]/g,"");
+                })             
+                console.log("新建文件夹的路径"+str+"/"+folderName)
+
+
+
+
+               $.ajax({
+                 url:'./deleteFolder?key='+str+"/"+folderName+'/',
+                 type:'get'
+               }).done(function(results){
+                  if (results.succ==true)
+                  {
+                    $folder.remove();
+                  }
+
+              })
+
+
+
+
+
+
+
+
+            }
+        }
+    ]
+});
+
+}
+
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
